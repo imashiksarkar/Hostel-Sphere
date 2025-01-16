@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { useAuth } from '@/contexts/AuthProvider'
 import { useToast } from '@/hooks/use-toast'
 import { FormEventHandler, useState } from 'react'
-import { Link, Navigate } from 'react-router'
+import { Link, useLocation } from 'react-router'
 
 const Signup = () => {
   const [passErr, setPassErr] = useState(false)
@@ -19,7 +19,9 @@ const Signup = () => {
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false)
 
   const { toast } = useToast()
-  const { signUp, user, loading, loginWithGoogle } = useAuth()
+  const { signUp, loginWithGoogle } = useAuth()
+  const { state } = useLocation()
+  const destination = state?.from || '/'
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
@@ -73,8 +75,6 @@ const Signup = () => {
     setIsLoadingGoogle(true)
     loginWithGoogle().finally(() => setIsLoadingGoogle(false))
   }
-
-  if (!loading && user) return <Navigate to='/' />
 
   return (
     <section className='signup-page'>
@@ -157,8 +157,12 @@ const Signup = () => {
                 </Button>
               </div>
               <div className='mt-4 text-center text-sm'>
-                <span>Don&apos;t have an account?</span>{' '}
-                <Link to='/login' className='underline'>
+                <span>Don&apos;t have an account?</span>
+                <Link
+                  to='/login'
+                  className='underline'
+                  state={{ from: destination }}
+                >
                   Login
                 </Link>
               </div>

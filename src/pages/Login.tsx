@@ -11,21 +11,18 @@ import { Label } from '@/components/ui/label'
 import { useAuth } from '@/contexts/AuthProvider'
 import { useToast } from '@/hooks/use-toast'
 import { FormEventHandler, useRef, useState } from 'react'
-import { Link, Navigate, useLocation } from 'react-router'
+import { Link, useLocation } from 'react-router'
 
 const Login = () => {
-  const { state } = useLocation()
-  const targetDestination = state?.from?.pathname || '/'
-
   const [passErr, setPassErr] = useState(false)
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false)
   const [isLoadingPassword, setIsLoadingPassword] = useState(false)
 
-  const { loginWithGoogle, user, loading, logIn } = useAuth()
-
+  const { loginWithGoogle, logIn } = useAuth()
   const { toast } = useToast()
-
   const mailRef = useRef<null | HTMLInputElement>(null)
+  const { state } = useLocation()
+  const destination = state?.from || '/'
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
@@ -67,10 +64,15 @@ const Login = () => {
   }
 
   const handleGoogleLogin = () => {
-    loginWithGoogle().finally(() => setIsLoadingGoogle(false))
+    loginWithGoogle()
+      .catch((error) => {
+        return toast({
+          title: 'Google Login Error!',
+          description: error.message,
+        })
+      })
+      .finally(() => setIsLoadingGoogle(false))
   }
-
-  if (!loading && user) return <Navigate to={targetDestination} />
 
   return (
     <section className={`login-page`}>
@@ -135,7 +137,11 @@ const Login = () => {
               </div>
               <div className='mt-4 text-center text-sm'>
                 <span>Don&apos;t have an account?</span>{' '}
-                <Link to='/signup' className='underline'>
+                <Link
+                  to='/signup'
+                  className='underline'
+                  state={{ from: destination }}
+                >
                   Signup
                 </Link>
               </div>
