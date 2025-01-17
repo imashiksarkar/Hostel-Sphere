@@ -22,7 +22,7 @@ import { RxAvatar } from 'react-icons/rx'
 import { Link, NavLink, useLocation } from 'react-router'
 import ThemeToggle from '@/components/ThemeToggle'
 
-const Navbar = () => {
+const Navbar = ({ className }: { className?: string }) => {
   const { user, logOut } = useAuth()
 
   const { pathname } = useLocation()
@@ -42,7 +42,8 @@ const Navbar = () => {
       <ul
         className={cn(
           "[&>li::after]:content-[''] [&>li::after]:block [&>li::after]:w-0 [&>li:has(>a.active)::after]:w-1/2 [&>li::after]:h-1 [&>li::after]:bg-purple-300 [&>li:has(>a:hover)::after]:w-3/4 [&>li::after]:rounded [&>li::after]:transition-all [&>li::after]:duration-300 [&>li::after]:mx-auto [&>li>a]:text-lg [&>li>a]:font-medium hidden lg:flex gap-8",
-          type === 'mobile' && 'flex lg:hidden flex-col [&>li]:w-max py-4 gap-4',
+          type === 'mobile' &&
+            'flex lg:hidden flex-col [&>li]:w-max py-4 gap-4',
           className
         )}
       >
@@ -62,7 +63,7 @@ const Navbar = () => {
   }
 
   return (
-    <section className='navbar bg-purple-800 py-4 text-white'>
+    <section className={cn('navbar bg-purple-800 py-4 text-white', className)}>
       <div className='con'>
         <nav className='flex items-center justify-between'>
           <NavLink to='/'>
@@ -177,7 +178,5 @@ const Navbar = () => {
     </section>
   )
 }
-
-
 
 export default Navbar
