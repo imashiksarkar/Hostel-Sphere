@@ -1,0 +1,5 @@
+[
+  { "_id": 1, "name": "breakfast" },
+  { "_id": 2, "name": "lunch" },
+  { "_id": 3, "name": "dinner" }
+]
