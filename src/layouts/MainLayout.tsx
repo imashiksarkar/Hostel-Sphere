@@ -4,13 +4,11 @@ import { Outlet } from 'react-router'
 
 const MainLayout = () => {
   return (
-    <section className='flex flex-col h-screen'>
-      <Navbar />
-      <main className='grow'>
-        <Outlet />
-      </main>
+    <div className='layout main-layout min-h-dvh w-full grid grid-flow-row grid-cols-1 grid-rows-[auto_1fr_auto] [&>*]:col-start-1'>
+      <Navbar className='row-start-1 z-10 bg-transparent' />
+      <Outlet />
       <Footer />
-    </section>
+    </div>
   )
 }
 
