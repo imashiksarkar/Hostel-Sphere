@@ -1,11 +1,13 @@
-import { useAuth } from '@/contexts/AuthProvider'
+import Slider from '@/components/Slider'
 
 const Home = () => {
-  const { loading } = useAuth()
-
-  if (loading) return <div>Loading...</div>
-
-  return <div>Home a</div>
+  return (
+    <main className='row-start-1 row-end-3'>
+      <section className='home-page'>
+        <Slider />
+      </section>
+    </main>
+  )
 }
 
 export default Home
