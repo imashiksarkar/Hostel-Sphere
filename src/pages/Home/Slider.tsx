@@ -45,7 +45,7 @@ const Slider = () => {
   }
 
   return (
-    <div className='swiper-container relative w-full text-white cursor-pointer bg-purple-700'>
+    <section className='swiper-container relative w-full text-white cursor-pointer bg-purple-700'>
       <Swiper
         loop
         navigation
@@ -115,7 +115,7 @@ const Slider = () => {
           <IoIosArrowForward className='text-4xl' />
         </button>
       </div>
-    </div>
+    </section>
   )
 }
 
