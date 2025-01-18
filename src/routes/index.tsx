@@ -10,6 +10,7 @@ import RequireNotLogin from './RequireNotLogin'
 import RequireLogin from './RequireLogin'
 import Dashboard from '@/pages/Dashboard'
 import ExploreMeals from '@/pages/ExploreMeals'
+import UpcomingMeals from '@/pages/UpcomingMeals'
 
 const Routes = () => {
   return (
@@ -20,7 +21,11 @@ const Routes = () => {
         <RouterRoutes>
           <Route element={<MainLayout />}>
             <Route index element={<Home />} />
-            <Route path='meals' element={<ExploreMeals />} />
+
+            <Route path='meals'>
+              <Route index element={<ExploreMeals />} />
+              <Route path='upcoming' element={<UpcomingMeals />} />
+            </Route>
 
             <Route element={<RequireNotLogin />}>
               <Route path='login' element={<Login />} />

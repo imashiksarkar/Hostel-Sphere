@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import Food from '@/types/Foods'
+import Food from '@/types/Meal'
 import { Link } from 'react-router'
 
 const FoodCards = ({ foods }: { foods: Food[] }) => {

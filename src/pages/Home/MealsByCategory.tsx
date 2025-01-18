@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { foods } from '@/constants'
+import { meals } from '@/constants'
 import useFetchCategories from '@/hooks/useFetchCategories'
 import { Link } from 'react-router'
 
@@ -39,30 +39,30 @@ const MealsByCategory = () => {
               className='product-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 py-4 min-h-[24rem]'
             >
               <h1 className='sr-only'>Product List</h1>
-              {foods.map((food) => (
-                <Card key={food._id} className='text-wrap p-2 rounded-lg'>
+              {meals.map((meal) => (
+                <Card key={meal._id} className='text-wrap p-2 rounded-lg'>
                   <CardHeader className='space-y-0 p-0'>
                     <figure className='aspect-video bg-red-300 overflow-hidden'>
                       <img
                         className='w-full h-full object-cover'
-                        src={food.image}
-                        alt={food.title}
+                        src={meal.image}
+                        alt={meal.title}
                         loading='lazy'
                       />
                     </figure>
-                    <CardTitle className='pt-5 pb-3'>{food.title}</CardTitle>
+                    <CardTitle className='pt-5 pb-3'>{meal.title}</CardTitle>
                     <CardDescription className='pb-3'>
-                      {food.price}
+                      {meal.price}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='flex flex-col gap-2 p-0'>
                     <p className='capitalize p-2 bg-red-400/20 w-max rounded-md'>
-                      {food.rating}
+                      {meal.rating}
                     </p>
                   </CardContent>
                   <CardFooter className='p-0 mt-5'>
                     <Button asChild>
-                      <Link to={`/meals/${food._id}`}>See Details</Link>
+                      <Link to={`/meals/${meal._id}`}>See Details</Link>
                     </Button>
                   </CardFooter>
                 </Card>

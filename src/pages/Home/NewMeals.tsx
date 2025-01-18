@@ -1,4 +1,4 @@
-import { foods } from '@/constants'
+import { meals } from '@/constants'
 import { Link } from 'react-router'
 
 const NewMeals = () => {
@@ -13,21 +13,21 @@ const NewMeals = () => {
           grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]
            gap-4'
         >
-          {foods?.map((food) => (
-            <li key={food._id}>
+          {meals?.map((meal) => (
+            <li key={meal._id}>
               <Link
-                to={`/meals/${food._id}`}
+                to={`/meals/${meal._id}`}
                 className='block rounded-xl overflow-hidden'
               >
                 <figure>
                   <img
                     className='w-full h-full object-cover max-w-[600px] aspect-[1.5/1]'
-                    src={food.image}
-                    alt={food.title}
+                    src={meal.image}
+                    alt={meal.title}
                     loading='lazy'
                   />
                   <summary className='bg-black bg-opacity-80 p-4 py-1 text-white'>
-                    {food.title}
+                    {meal.title}
                   </summary>
                 </figure>
               </Link>

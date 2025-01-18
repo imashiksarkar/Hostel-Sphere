@@ -1,15 +1,14 @@
 import MealsList from '@/components/MealsList'
 import { meals } from '@/constants'
-import { cn } from '@/lib/utils'
 
-const ExploreMeals = () => {
+const UpcomingMeals = () => {
   return (
-    <main className='meals-page'>
-      <section className={cn('explore-meals')}>
+    <main className='upcoming-meals-page'>
+      <section className='explore-meals'>
         <div className='con py-8 space-y-8'>
           <header className='text-center space-y-2'>
-            <h1 className='text-2xl font-bold'>Explore Meals</h1>
-            <p>A sneak peek of our meals</p>
+            <h1 className='text-2xl font-bold'>Explore Upcoming Meals</h1>
+            <p>A sneak peek of our upcoming meals</p>
           </header>
           <MealsList meals={meals} />
         </div>
@@ -18,4 +17,4 @@ const ExploreMeals = () => {
   )
 }
 
-export default ExploreMeals
+export default UpcomingMeals
