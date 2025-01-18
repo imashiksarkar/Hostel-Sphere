@@ -1,0 +1,44 @@
+[
+  {
+    "_id": "1",
+    "name": "silver",
+    "price": 10,
+    "features": [
+      "1 User",
+      "1 GB Storage",
+      "Unlimited Public Projects",
+      "Community Access"
+    ],
+    "recommended": false
+  },
+  {
+    "_id": "2",
+    "name": "gold",
+    "price": 20,
+    "features": [
+      "5 Users",
+      "5 GB Storage",
+      "Unlimited Public Projects",
+      "Community Access",
+      "Unlimited Private Projects",
+      "Dedicated Phone Support",
+      "Free Subdomain"
+    ],
+    "recommended": true
+  },
+  {
+    "_id": "3",
+    "name": "platinum",
+    "price": 30,
+    "features": [
+      "Unlimited Users",
+      "Unlimited Storage",
+      "Unlimited Public Projects",
+      "Community Access",
+      "Dedicated Phone Support",
+      "Unlimited Private Projects",
+      "Free Subdomain"
+    ],
+    "recommended": false
+  }
+]
