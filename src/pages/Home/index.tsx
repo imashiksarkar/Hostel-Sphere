@@ -9,9 +9,9 @@ const Home = () => {
     <main className='home-page row-start-1 row-end-3'>
       <Slider />
       <MealsByCategory />
-      <Pricing />
-      <Services />
       <NewMeals />
+      <Services />
+      <Pricing />
     </main>
   )
 }
