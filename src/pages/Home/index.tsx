@@ -1,6 +1,7 @@
 import Slider from './Slider'
 import MealsByCategory from './MealsByCategory'
 import Pricing from './Pricing'
+import Services from './Services'
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <Slider />
       <MealsByCategory />
       <Pricing />
+      <Services />
     </main>
   )
 }
