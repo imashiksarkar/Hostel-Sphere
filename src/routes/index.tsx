@@ -9,6 +9,7 @@ import { BrowserRouter, Routes as RouterRoutes, Route } from 'react-router'
 import RequireNotLogin from './RequireNotLogin'
 import RequireLogin from './RequireLogin'
 import Dashboard from '@/pages/Dashboard'
+import ExploreMeals from '@/pages/ExploreMeals'
 
 const Routes = () => {
   return (
@@ -19,6 +20,7 @@ const Routes = () => {
         <RouterRoutes>
           <Route element={<MainLayout />}>
             <Route index element={<Home />} />
+            <Route path='meals' element={<ExploreMeals />} />
 
             <Route element={<RequireNotLogin />}>
               <Route path='login' element={<Login />} />

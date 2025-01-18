@@ -7,10 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import IFood from '@/types/Foods'
+import Food from '@/types/Foods'
 import { Link } from 'react-router'
 
-const FoodCards = ({ foods }: { foods: IFood[] }) => {
+const FoodCards = ({ foods }: { foods: Food[] }) => {
   return (
     <>
       {foods.map((food) => (

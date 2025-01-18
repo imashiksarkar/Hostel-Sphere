@@ -1,7 +1,6 @@
-export default interface IFood {
+export default interface Food {
   _id: string
   title: string
   image: string
-  rating: number
   price: number
 }
