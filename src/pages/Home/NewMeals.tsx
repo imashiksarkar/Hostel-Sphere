@@ -3,8 +3,8 @@ import { Link } from 'react-router'
 
 const NewMeals = () => {
   return (
-    <section className='ending-soon-foods py-8'>
-      <div className='con'>
+    <section className='ending-soon-foods'>
+      <div className='con py-10 space-y-6'>
         <h2 className='text-xl md:text-2xl font-bold mb-4'>
           Recently Added Meals
         </h2>
@@ -16,7 +16,7 @@ const NewMeals = () => {
           {foods?.map((food) => (
             <li key={food._id}>
               <Link
-                to={`/foods/${food._id}`}
+                to={`/meals/${food._id}`}
                 className='block rounded-xl overflow-hidden'
               >
                 <figure>
