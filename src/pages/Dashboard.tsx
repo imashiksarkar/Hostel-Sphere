@@ -1,31 +1,29 @@
+import UserProfileBox from '@/components/UserProfileBox'
 import { useAuth } from '@/contexts/AuthProvider'
 
-const Profile = () => {
+const Dashboard = () => {
   const { user } = useAuth()
+
+  if (!user || !user.displayName || !user.email || !user.photoURL)
+    throw new Error('User not found')
+
+  const { displayName, email, photoURL } = user
+  const modifiedUser = {
+    displayName,
+    email,
+    photoURL,
+    // TODO: fetch this from the server
+    numMealsAdded: 156,
+  }
 
   return (
     <section className='profile-page'>
       <div className='con py-8'>
-        <h4 className='text-3xl'>
-          Welcome, <span className='text-red-400'>{user?.displayName}</span>
-        </h4>
-        <div className='profile-card mt-8 flex flex-col sm:flex-row p-4 gap-8 justify-center items-start'>
-          <figure className='dp h-44 aspect-square'>
-            <img
-              src={user?.photoURL || ''}
-              alt='display picture'
-              className='h-full w-full object-cover'
-            />
-          </figure>
-
-          <div className='details flex flex-col gap-2'>
-            <p>Email: {user?.email}</p>
-            <p>Number Of Meals Added: 100</p>
-          </div>
-        </div>
+        <h4 className='sr-only'>user profile</h4>
+        <UserProfileBox user={modifiedUser} />
       </div>
     </section>
   )
 }
 
-export default Profile
+export default Dashboard

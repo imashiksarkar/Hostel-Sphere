@@ -71,7 +71,6 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
 
       <SidebarContent className='mt-8'>
         <NavMain links={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser

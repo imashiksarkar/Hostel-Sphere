@@ -1,10 +1,8 @@
-import AppSidebar from './AppSidebar'
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
@@ -13,10 +11,18 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
-import { Outlet } from 'react-router'
+import { Link, Outlet, useLocation } from 'react-router'
+import AppSidebar from './AppSidebar'
+import { Fragment } from 'react'
 const DashboardLayout = () => {
+  const loc = useLocation()
+  const paths = loc.pathname.split('/')
+  paths.shift()
+
+  let url = ''
+
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <AppSidebar />
       <SidebarInset>
         <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
@@ -25,17 +31,19 @@ const DashboardLayout = () => {
             <Separator orientation='vertical' className='mr-2 h-4' />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className='hidden md:block'>
-                  <BreadcrumbLink href='#'>Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className='hidden md:block' />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>User</BreadcrumbPage>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className='hidden md:block' />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>1</BreadcrumbPage>
-                </BreadcrumbItem>
+                {paths.map((path, index) => {
+                  url += '/' + path
+                  return (
+                    <Fragment key={index}>
+                      <BreadcrumbItem key={index} className='capitalize'>
+                        <BreadcrumbLink asChild>
+                          <Link to={url}>{path}</Link>
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+                      {index !== paths.length - 1 && <BreadcrumbSeparator />}
+                    </Fragment>
+                  )
+                })}
               </BreadcrumbList>
             </Breadcrumb>
           </div>

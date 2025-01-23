@@ -24,6 +24,7 @@ const Routes = () => {
         <RouterRoutes>
           <Route element={<MainLayout />}>
             <Route index element={<Home />} />
+            <Route path='users/:id' element={<UserProfile />} />
 
             <Route path='meals'>
               <Route index element={<ExploreMeals />} />
