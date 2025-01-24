@@ -15,6 +15,7 @@ import DashboardLayout from '@/layouts/DashboardLayout'
 import Users from '@/pages/Users'
 import UserProfile from '@/pages/UserProfile'
 import AddMeal from '@/pages/AddMeal'
+import MealsTable from '@/pages/MealsTable'
 
 const Routes = () => {
   return (
@@ -43,6 +44,7 @@ const Routes = () => {
           <Route element={<RequireLogin />}>
             <Route path='dashboard' element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
+              <Route path='meals' element={<MealsTable />} />
               <Route path='add-meal' element={<AddMeal />} />
               <Route path='users' element={<Users />} />
               <Route path='users/:id' element={<UserProfile />} />

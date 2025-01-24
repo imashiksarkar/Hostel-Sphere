@@ -1,6 +1,6 @@
 import logo from '@/assets/images/logo.png'
 
-import { User, UserRoundPen, Heater, CookingPot } from 'lucide-react'
+import { User, UserRoundPen, Heater, CookingPot, Table } from 'lucide-react'
 import * as React from 'react'
 
 import {
@@ -18,7 +18,6 @@ import NavMain from './NavMain'
 import NavUser from './NavUser'
 import { useAuth } from '@/contexts/AuthProvider'
 
-// This is sample data.
 const data = {
   navMain: [
     {
@@ -41,6 +40,11 @@ const data = {
       title: 'Add Meal',
       url: '/dashboard/add-meal',
       icon: CookingPot,
+    },
+    {
+      title: 'All Meals',
+      url: '/dashboard/meals',
+      icon: Table,
     },
   ],
 }
