@@ -1,6 +1,6 @@
 import logo from '@/assets/images/logo.png'
 
-import {  User,UserRoundPen,Heater } from 'lucide-react'
+import { User, UserRoundPen, Heater, CookingPot } from 'lucide-react'
 import * as React from 'react'
 
 import {
@@ -36,6 +36,11 @@ const data = {
       title: 'Requested Meals',
       url: '/dashboard/requested-meals',
       icon: Heater,
+    },
+    {
+      title: 'Add Meal',
+      url: '/dashboard/add-meal',
+      icon: CookingPot,
     },
   ],
 }
