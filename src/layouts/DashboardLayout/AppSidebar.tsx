@@ -1,6 +1,6 @@
 import logo from '@/assets/images/logo.png'
 
-import { SquareTerminal } from 'lucide-react'
+import {  User,UserRoundPen,Heater } from 'lucide-react'
 import * as React from 'react'
 
 import {
@@ -24,18 +24,18 @@ const data = {
     {
       title: 'My Profile',
       url: '/dashboard',
-      icon: SquareTerminal,
+      icon: User,
       isActive: true,
     },
     {
-      title: 'Users',
-      icon: SquareTerminal,
+      title: 'Users Roles',
+      icon: UserRoundPen,
       url: '/dashboard/users',
     },
     {
       title: 'Requested Meals',
       url: '/dashboard/requested-meals',
-      icon: SquareTerminal,
+      icon: Heater,
     },
   ],
 }

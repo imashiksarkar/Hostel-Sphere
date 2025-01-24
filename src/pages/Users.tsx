@@ -1,10 +1,14 @@
-// import { useSearchParams } from 'react-router'
+import UsersTable from '@/components/UsersTable'
 
 const Users = () => {
-  // const [searchParams] = useSearchParams()
-
-  // console.log(searchParams.get('role'))
-  return <div>Users</div>
+  return (
+    <section className='users-page'>
+      <div className='con py-8'>
+        <h4 className='sr-only'>users list</h4>
+        <UsersTable />
+      </div>
+    </section>
+  )
 }
 
 export default Users
