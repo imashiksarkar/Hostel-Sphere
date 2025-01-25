@@ -16,6 +16,7 @@ import Users from '@/pages/Users'
 import UserProfile from '@/pages/UserProfile'
 import AddMeal from '@/pages/AddMeal'
 import MealsTable from '@/pages/MealsTable'
+import ReviewsList from '@/pages/ReviewsList'
 
 const Routes = () => {
   return (
@@ -48,6 +49,7 @@ const Routes = () => {
               <Route path='add-meal' element={<AddMeal />} />
               <Route path='users' element={<Users />} />
               <Route path='users/:id' element={<UserProfile />} />
+              <Route path='reviews' element={<ReviewsList />} />
             </Route>
           </Route>
         </RouterRoutes>
