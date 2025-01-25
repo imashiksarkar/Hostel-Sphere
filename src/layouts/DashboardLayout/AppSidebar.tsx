@@ -1,6 +1,14 @@
 import logo from '@/assets/images/logo.png'
 
-import { User, UserRoundPen, Heater, CookingPot, Table, Star } from 'lucide-react'
+import {
+  User,
+  UserRoundPen,
+  Heater,
+  CookingPot,
+  Table,
+  Star,
+  HandPlatter,
+} from 'lucide-react'
 import * as React from 'react'
 
 import {
@@ -32,19 +40,24 @@ const data = {
       url: '/dashboard/users',
     },
     {
+      title: 'All Meals',
+      url: '/dashboard/meals',
+      icon: Table,
+    },
+    {
       title: 'Requested Meals',
-      url: '/dashboard/requested-meals',
+      url: '/dashboard/meals/requested',
       icon: Heater,
     },
     {
       title: 'Add Meal',
-      url: '/dashboard/add-meal',
+      url: '/dashboard/meals/add',
       icon: CookingPot,
     },
     {
-      title: 'All Meals',
-      url: '/dashboard/meals',
-      icon: Table,
+      title: 'Serve Meals',
+      url: '/dashboard/meals/serve',
+      icon: HandPlatter,
     },
     {
       title: 'Reviews',
