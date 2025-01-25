@@ -1,3 +1,4 @@
+import TablePagination from '@/components/TablePagination'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -60,7 +61,7 @@ export type Meal = {
   distributorName: string
 }
 
-export const useColumns = (): ColumnDef<Meal>[] => {
+const useColumns = (): ColumnDef<Meal>[] => {
   // const onToggleAdmin = useCallback(
   //   (userId: string) => () => {
   //     console.log(userId)
@@ -324,6 +325,10 @@ const MealsTable = () => {
           </TableBody>
         </Table>
       </div>
+      <TablePagination
+        totalPages={5}
+        onPageChange={(tablePage) => console.log(tablePage)}
+      />
     </div>
   )
 }
