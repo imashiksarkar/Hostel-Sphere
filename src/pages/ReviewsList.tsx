@@ -1,3 +1,4 @@
+import TablePagination from '@/components/TablePagination'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -53,7 +54,7 @@ export type Review = {
   reviewsCount: number
 }
 
-export const useColumns = (): ColumnDef<Review>[] => {
+const useColumns = (): ColumnDef<Review>[] => {
   // const onToggleAdmin = useCallback(
   //   (userId: string) => () => {
   //     console.log(userId)
@@ -200,6 +201,10 @@ const ReviewsList = () => {
           </TableBody>
         </Table>
       </div>
+      <TablePagination
+        totalPages={5}
+        onPageChange={(tablePage) => console.log(tablePage)}
+      />
     </div>
   )
 }
