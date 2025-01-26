@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { categories } from '@/constants'
 import { Category } from '@/types'
@@ -55,6 +56,7 @@ const formSchema = z.object({
     (val) => parseFloat(val as string),
     z.number().min(100, 'Min price $100.')
   ),
+  isUpcoming: z.boolean().default(false),
 })
 
 const AddMeal = () => {
@@ -226,12 +228,28 @@ const AddMeal = () => {
               </Button>
             </div>
 
+            <FormField
+              control={form.control}
+              name='isUpcoming'
+              render={({ field }) => (
+                <FormItem className='flex items-center gap-8'>
+                  <FormLabel>Is Upcoming?</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <Button disabled={!isValid} type='submit'>
               {isSubmitting ? 'Submitting...' : 'Submit'}
             </Button>
           </form>
         </FormProvider>
-        {/* <DevTool control={form.control} /> */}
       </div>
     </section>
   )
