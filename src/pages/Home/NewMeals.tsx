@@ -1,7 +1,8 @@
-import { meals } from '@/constants'
+import useFetchUpcomingMeals from '@/hooks/useFetchUpcomingMeals'
 import { Link } from 'react-router'
 
 const NewMeals = () => {
+  const { data: meals } = useFetchUpcomingMeals()
   return (
     <section className='ending-soon-foods'>
       <div className='con py-10 space-y-6'>

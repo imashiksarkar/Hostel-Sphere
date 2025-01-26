@@ -8,12 +8,13 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { meals } from '@/constants'
 import useFetchCategories from '@/hooks/useFetchCategories'
+import useFetchUpcomingMeals from '@/hooks/useFetchUpcomingMeals'
 import { Link } from 'react-router'
 
 const MealsByCategory = () => {
   const { data: categories } = useFetchCategories()
+  const { data: meals } = useFetchUpcomingMeals()
 
   return (
     <section className='meals-categories'>

@@ -3,8 +3,6 @@ import NumberRange from '@/components/NumberRange'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { categories, meals } from '@/constants'
-import { cn } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -12,10 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { categories } from '@/constants'
+import { cn } from '@/lib/utils'
 
+import useFetchUpcomingMeals from '@/hooks/useFetchUpcomingMeals'
 import { useCallback, useState } from 'react'
 
 const ExploreMeals = () => {
+  const { data: meals } = useFetchUpcomingMeals()
+
   const [range, setRange] = useState<[number, number]>([10, 50])
   const [min, max] = range
 

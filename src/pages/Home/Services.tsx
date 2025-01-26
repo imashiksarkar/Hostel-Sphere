@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { meals } from '@/constants'
+import useFetchUpcomingMeals from '@/hooks/useFetchUpcomingMeals'
 
 const Services = () => {
+  const { data: meals } = useFetchUpcomingMeals()
   return (
     <section className='our-services'>
       <div className='con py-8'>
