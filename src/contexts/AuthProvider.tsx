@@ -105,7 +105,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       user?.getIdTokenResult().then(async (token) => {
         try {
           await api.post(
-            '/auth/register',
+            '/users/register',
             {},
             {
               headers: {
