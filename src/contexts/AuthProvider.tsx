@@ -116,7 +116,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
           )
         } catch (error) {
           if ((error as AxiosError).status !== 409) {
-            await logOut()
             throw error
           }
         }

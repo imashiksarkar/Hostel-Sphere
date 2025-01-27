@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import UsersTable from '@/components/UsersTable'
+import useChangeRole from '@/hooks/useChangeRole'
 import useDebounceSearch from '@/hooks/useDebounceSearch'
 import useFetchUsers from '@/hooks/useFetchUsers'
 import User from '@/types/User'
@@ -27,11 +28,15 @@ import { ChevronDown } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 const useColumns = (): ColumnDef<User>[] => {
+  const [updatingItem, setUpdatingItem] = useState<string | null>(null)
+  const { mutate, isPending } = useChangeRole()
+
   const onToggleAdmin = useCallback(
     (userId: string) => () => {
-      console.log(userId)
+      setUpdatingItem(userId)
+      mutate(userId)
     },
-    []
+    [mutate]
   )
 
   return [
@@ -75,7 +80,11 @@ const useColumns = (): ColumnDef<User>[] => {
               disabled={isAdmin}
               variant='outline'
             >
-              {isAdmin ? 'Admin' : 'Make Admin'}
+              {isPending && updatingItem === userId
+                ? 'Updating...'
+                : isAdmin
+                ? 'Admin'
+                : 'Make Admin'}
             </Button>
           </div>
         )
