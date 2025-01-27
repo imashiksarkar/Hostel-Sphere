@@ -1,3 +1,4 @@
+import TablePagination from '@/components/TablePagination'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,7 +24,7 @@ import {
   VisibilityState,
 } from '@tanstack/react-table'
 import { ChevronDown } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const useColumns = (): ColumnDef<User>[] => {
   const onToggleAdmin = useCallback(
@@ -84,10 +85,24 @@ const useColumns = (): ColumnDef<User>[] => {
 }
 
 const Users = () => {
+  const resultPerPage = 10
   const [debouncedSearch, search, setSearch] = useDebounceSearch('', 1000)
 
-  const { data, isLoading } = useFetchUsers(debouncedSearch)
-  const cells = data?.data
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [skip, setSkip] = useState((currentPage - 1) * resultPerPage)
+
+  const { data, isLoading } = useFetchUsers(debouncedSearch, skip)
+  const cells = data?.users || []
+
+  useEffect(() => {
+    setTotalPages(Math.ceil((data?.totalDocs || 0) / 10))
+    setSkip((currentPage - 1) * resultPerPage)
+  }, [data, currentPage])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [debouncedSearch])
 
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -158,6 +173,13 @@ const Users = () => {
         ) : (
           <UsersTable table={table} columns={columns} />
         )}
+        <TablePagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={(pageNumber) => {
+            setCurrentPage(pageNumber)
+          }}
+        />
       </div>
     </section>
   )
