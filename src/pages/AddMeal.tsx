@@ -14,12 +14,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { categories } from '@/constants'
+import { useToast } from '@/hooks/use-toast'
+import useAddMeal from '@/hooks/useAddMeal'
+import { uploadImage } from '@/services/cloudinaryService'
 import { Category } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 import { z } from 'zod'
 
 const categoriesEnum = categories.map((category: Category) => category.name)
@@ -56,10 +59,24 @@ const formSchema = z.object({
     (val) => parseFloat(val as string),
     z.number().min(100, 'Min price $100.')
   ),
-  isUpcoming: z.boolean().default(false),
 })
 
+export type AddMealDto = z.infer<typeof formSchema>
+
+const precessedIngredients = z
+  .array(
+    z
+      .object({
+        name: z.string().trim().min(3, 'Min 3 chars.'),
+      })
+      .transform((val) => val.name)
+  )
+  .min(1, 'Min 1 ingredient')
+
 const AddMeal = () => {
+  const { toast } = useToast()
+  const navigate = useNavigate()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -85,8 +102,30 @@ const AddMeal = () => {
     name: 'ingredients',
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  const { mutate } = useAddMeal(() => {
+    toast({
+      title: 'Meal added',
+      description: 'Your meal has been added successfully.',
+    })
+
+    form.reset()
+
+    navigate('/dashboard/meals')
+  })
+
+  const onSubmit = async (values: AddMealDto) => {
+    const { data: ingredients, success } = precessedIngredients.safeParse(
+      values.ingredients
+    )
+    if (!success) return
+
+    const { secure_url } = await uploadImage(values.image)
+
+    mutate({
+      ...values,
+      image: secure_url,
+      ingredients,
+    })
   }
 
   return (
@@ -227,23 +266,6 @@ const AddMeal = () => {
                 Add Ingredient
               </Button>
             </div>
-
-            <FormField
-              control={form.control}
-              name='isUpcoming'
-              render={({ field }) => (
-                <FormItem className='flex items-center gap-8'>
-                  <FormLabel>Is Upcoming?</FormLabel>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <Button disabled={!isValid} type='submit'>
               {isSubmitting ? 'Submitting...' : 'Submit'}
