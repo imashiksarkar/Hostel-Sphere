@@ -1,16 +1,16 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import UsersTable from '@/components/UsersTable'
-import useDebounceSearch from '@/hooks/useDebounceSearch'
-import useFetchUsers from '@/hooks/useFetchUsers'
-import User from '@/types/User'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Input } from '@/components/ui/input'
+import UsersTable from '@/components/UsersTable'
+import useDebounceSearch from '@/hooks/useDebounceSearch'
+import useFetchUsers from '@/hooks/useFetchUsers'
+import User from '@/types/User'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -23,7 +23,7 @@ import {
   VisibilityState,
 } from '@tanstack/react-table'
 import { ChevronDown } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 const useColumns = (): ColumnDef<User>[] => {
   const onToggleAdmin = useCallback(
@@ -84,7 +84,9 @@ const useColumns = (): ColumnDef<User>[] => {
 }
 
 const Users = () => {
-  const { data, isLoading } = useFetchUsers()
+  const [debouncedSearch, search, setSearch] = useDebounceSearch('', 1000)
+
+  const { data, isLoading } = useFetchUsers(debouncedSearch)
   const cells = data?.data
 
   const [sorting, setSorting] = useState<SortingState>([])
@@ -112,16 +114,6 @@ const Users = () => {
       rowSelection,
     },
   })
-
-  const [debouncedSearch, search, setSearch] = useDebounceSearch('', 1000)
-
-  useEffect(() => {
-    console.log(debouncedSearch)
-  }, [debouncedSearch])
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
 
   return (
     <section className='users-page'>
@@ -161,7 +153,11 @@ const Users = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        {!isLoading && <UsersTable table={table} columns={columns} />}
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <UsersTable table={table} columns={columns} />
+        )}
       </div>
     </section>
   )

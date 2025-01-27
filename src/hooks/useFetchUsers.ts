@@ -1,10 +1,17 @@
 import api from '@/services/axiosService'
 import { useQuery } from '@tanstack/react-query'
 
-const useFetchUsers = () => {
+const useFetchUsers = (searchText?: string) => {
   return useQuery({
-    queryKey: ['users'],
-    queryFn: async () => await api.get('/users').then((res) => res.data),
+    queryKey: ['users', { searchText }],
+    queryFn: async () =>
+      await api
+        .get('/users', {
+          params: {
+            search: searchText,
+          },
+        })
+        .then((res) => res.data),
   })
 }
 
