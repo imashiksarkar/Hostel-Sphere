@@ -1,4 +1,6 @@
 import auth from '@/lib/firebase'
+import api from '@/services/axiosService'
+import { AxiosError } from 'axios'
 import {
   type User,
   createUserWithEmailAndPassword,
@@ -100,11 +102,25 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      // user?.getIdTokenResult().then((token) => {
-      //   console.log(token, user)
-      // })
-
-      // TODO: save the user to db and write to localstorage whether is it already registered
+      user?.getIdTokenResult().then(async (token) => {
+        try {
+          await api.post(
+            '/auth/register',
+            {},
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token.token}`,
+              },
+            }
+          )
+        } catch (error) {
+          if ((error as AxiosError).status !== 409) {
+            await logOut()
+            throw error
+          }
+        }
+      })
 
       setUser(user)
 
