@@ -12,3 +12,25 @@ export default interface Meal {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface MealsRequest {
+  _id: string
+  meal: {
+    _id: string
+    title: string
+    status: string
+  }
+  requestor: {
+    _id: string
+    fbId: string
+    name: string
+    email: string
+  }
+  status: string
+  distributor: {
+    _id: string
+    fbId: string
+    name: string
+    email: string
+  }
+}

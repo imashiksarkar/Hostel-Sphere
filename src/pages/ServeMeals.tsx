@@ -1,4 +1,3 @@
-import TablePagination from '@/components/TablePagination'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,6 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import useFetchMealsReq from '@/hooks/useFetchMealsReq'
+import { MealsRequest } from '@/types/Meal'
 
 import {
   ColumnDef,
@@ -24,39 +25,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 
-const data: Meal[] = [
-  {
-    id: 'm5gr84i9',
-    title: 'Chicken',
-    userName: 'John Doe',
-    userEmail: 'ashik@aa.com',
-    mealStatus: 'Available',
-  },
-  {
-    id: 'm5gr84ia9',
-    title: 'Chicken',
-    userName: 'John Doe',
-    userEmail: 'ashik@aa.com',
-    mealStatus: 'Delivered',
-  },
-]
-
-export type Meal = {
-  id: string
-  title: string
-  userName: string
-  userEmail: string
-  mealStatus: 'Available' | 'Delivered'
-}
-
-export const useColumns = (): ColumnDef<Meal>[] => {
-  // const onToggleAdmin = useCallback(
-  //   (userId: string) => () => {
-  //     console.log(userId)
-  //   },
-  //   []
-  // )
-
+export const useColumns = (): ColumnDef<MealsRequest>[] => {
   return [
     {
       accessorKey: 'title',
@@ -88,12 +57,12 @@ export const useColumns = (): ColumnDef<Meal>[] => {
       },
     },
     {
-      accessorKey: 'mealStatus',
+      accessorKey: 'status',
       header: () => <div className='text-center'>Meal Status</div>,
       cell: ({ row }) => {
         return (
           <div className='text-center font-medium'>
-            <Badge>{row.getValue('mealStatus')}</Badge>
+            <Badge className='uppercase'>{row.getValue('status')}</Badge>
           </div>
         )
       },
@@ -103,7 +72,7 @@ export const useColumns = (): ColumnDef<Meal>[] => {
       header: () => <div className='text-center'>Action</div>,
       cell: ({ cell }) => {
         const currentCell = cell.row.original
-        const isServed = currentCell.mealStatus === 'Delivered'
+        const isServed = currentCell.status === 'delivered'
 
         return (
           <div className='text-center font-medium'>
@@ -118,6 +87,8 @@ export const useColumns = (): ColumnDef<Meal>[] => {
 }
 
 const ServeMeals = () => {
+  const { data: res = [], isLoading } = useFetchMealsReq()
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -126,7 +97,7 @@ const ServeMeals = () => {
   const columns = useColumns()
 
   const table = useReactTable({
-    data,
+    data: res,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -146,60 +117,58 @@ const ServeMeals = () => {
 
   return (
     <div className='w-full'>
-      <div className='rounded-md border'>
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+      {!isLoading && (
+        <div className='rounded-md border'>
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    )
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <TablePagination
-        totalPages={5}
-        onPageChange={(tablePage) => console.log(tablePage)}
-      />
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className='h-24 text-center'
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   )
 }

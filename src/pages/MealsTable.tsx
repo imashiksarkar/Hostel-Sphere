@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import useFetchMeals from '@/hooks/useFetchMeals'
 
 import {
   ColumnDef,
@@ -29,31 +30,31 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table'
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { ChevronDown, MoreHorizontal } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router'
 
-const data: Meal[] = [
-  {
-    id: 'm5gr84i9',
-    title: 'Chicken',
-    distributorName: 'Ashik',
-    likesCount: 150,
-    rating: 4.5,
-    reviewsCount: 1023,
-  },
-  {
-    id: 'm5gr84ia9',
-    title: 'Chicken',
-    distributorName: 'Ashik',
-    likesCount: 150,
-    rating: 4.5,
-    reviewsCount: 1023,
-  },
-]
+// const data: Meal[] = [
+//   {
+//     id: 'm5gr84i9',
+//     title: 'Chicken',
+//     distributorName: 'Ashik',
+//     likesCount: 150,
+//     rating: 4.5,
+//     reviewsCount: 1023,
+//   },
+//   {
+//     id: 'm5gr84ia9',
+//     title: 'Chicken',
+//     distributorName: 'Ashik',
+//     likesCount: 150,
+//     rating: 4.5,
+//     reviewsCount: 1023,
+//   },
+// ]
 
 export type Meal = {
-  id: string
+  _id: string
   title: string
   likesCount: number
   reviewsCount: number
@@ -62,13 +63,6 @@ export type Meal = {
 }
 
 const useColumns = (): ColumnDef<Meal>[] => {
-  // const onToggleAdmin = useCallback(
-  //   (userId: string) => () => {
-  //     console.log(userId)
-  //   },
-  //   []
-  // )
-
   return [
     {
       accessorKey: 'title',
@@ -78,25 +72,13 @@ const useColumns = (): ColumnDef<Meal>[] => {
       ),
     },
     {
-      accessorKey: 'distributorName',
-      header: ({ column }) => {
-        return (
-          <div className='text-center'>
-            <Button
-              variant='ghost'
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === 'asc')
-              }
-            >
-              Distributor
-              <ArrowUpDown />
-            </Button>
-          </div>
-        )
+      accessorKey: 'distributor',
+      header: () => {
+        return <div className='text-center'>Distributor</div>
       },
       cell: ({ row }) => (
         <div className='lowercase text-center'>
-          {row.getValue('distributorName')}
+          {row.getValue('distributor')}
         </div>
       ),
     },
@@ -112,23 +94,23 @@ const useColumns = (): ColumnDef<Meal>[] => {
       },
     },
     {
-      accessorKey: 'likesCount',
+      accessorKey: 'likes',
       header: () => <div className='text-center'>Number Of Likes</div>,
       cell: ({ row }) => {
         return (
           <div className='text-center font-medium'>
-            {row.getValue('likesCount')}
+            {row.getValue('likes') || 0}
           </div>
         )
       },
     },
     {
-      accessorKey: 'reviewsCount',
+      accessorKey: 'reviews',
       header: () => <div className='text-center'>Number Of Reviews</div>,
       cell: ({ row }) => {
         return (
           <div className='text-center font-medium'>
-            {row.getValue('reviewsCount')}
+            {row.getValue('reviews') || 0}
           </div>
         )
       },
@@ -151,7 +133,7 @@ const useColumns = (): ColumnDef<Meal>[] => {
               <DropdownMenuContent align='end' className='space-y-2'>
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
-                  <Link to={'./'}>View</Link>
+                  <Link to={`/meals/${currentCell._id}`}>View</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>Update</DropdownMenuItem>
                 <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -188,15 +170,31 @@ const sortingFields = [
 ]
 
 const MealsTable = () => {
+  const [sort, setSort] = useState({
+    title: 'Sort',
+    value: 'likes',
+  })
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
+  const resultPerPage = 10
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [skip, setSkip] = useState((currentPage - 1) * resultPerPage)
+
+  const { data: res, isLoading } = useFetchMeals(sort.value, skip)
+  
+  const [totalPages] = useState(
+    Math.ceil((res?.totalDocs || 0) / resultPerPage) || 1
+  )
+
   const columns = useColumns()
 
   const table = useReactTable({
-    data,
+    data: res?.meals || [],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -213,15 +211,6 @@ const MealsTable = () => {
       rowSelection,
     },
   })
-
-  const [sort, setSort] = useState({
-    title: 'Sort',
-    value: null as string | null,
-  })
-
-  useEffect(() => {
-    console.log(sort)
-  }, [sort])
 
   return (
     <div className='w-full'>
@@ -275,59 +264,66 @@ const MealsTable = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className='rounded-md border'>
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+      {!isLoading && (
+        <div className='rounded-md border'>
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    )
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className='h-24 text-center'
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+
       <TablePagination
-        totalPages={5}
-        onPageChange={(tablePage) => console.log(tablePage)}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(tablePage) => {
+          setCurrentPage(tablePage)
+          setSkip((tablePage - 1) * resultPerPage)
+        }}
       />
     </div>
   )
