@@ -95,9 +95,7 @@ const useColumns = (): ColumnDef<Review>[] => {
     {
       accessorKey: 'action',
       header: () => <div className='text-center'>Action</div>,
-      cell: ({ cell }) => {
-        const currentCell = cell.row.original
-
+      cell: () => {
         return (
           <div className='text-center font-medium'>
             <DropdownMenu>

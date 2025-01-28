@@ -19,22 +19,20 @@ const FoodCards = ({ foods }: { foods: Food[] }) => {
             <figure className='aspect-video bg-red-300 overflow-hidden'>
               <img
                 className='w-full h-full object-cover'
-                src={food.imageUrl}
-                alt={food.name}
+                src={food.image}
+                alt={food.title}
                 loading='lazy'
               />
             </figure>
-            <CardTitle className='pt-5 pb-3'>{food.name}</CardTitle>
+            <CardTitle className='pt-5 pb-3'>{food.title}</CardTitle>
             <CardDescription className='pb-3'>
-              {food.additionalNotes}
+              {food.description}
             </CardDescription>
           </CardHeader>
           <CardContent className='flex flex-col gap-2 p-0'>
-            <p>Expires At: {food.expiresAt || 'Unknown'}</p>
             <p className='capitalize'>Category: {food.category}</p>
-            <p className='capitalize'>Quantity: {food.quantity} grams</p>
             <p className='capitalize p-2 bg-red-400/20 w-max rounded-md'>
-              {food.foodStatus}
+              {food.status}
             </p>
           </CardContent>
           <CardFooter className='p-0 mt-5'>
