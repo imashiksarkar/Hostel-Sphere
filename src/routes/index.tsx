@@ -18,6 +18,7 @@ import AddMeal from '@/pages/AddMeal'
 import MealsTable from '@/pages/MealsTable'
 import ReviewsList from '@/pages/ReviewsList'
 import ServeMeals from '@/pages/ServeMeals'
+import Checkout from '@/pages/Checkout'
 
 const Routes = () => {
   return (
@@ -38,6 +39,10 @@ const Routes = () => {
             <Route element={<RequireNotLogin />}>
               <Route path='login' element={<Login />} />
               <Route path='signup' element={<Signup />} />
+            </Route>
+
+            <Route element={<RequireLogin />}>
+              <Route path='checkout/:plan' element={<Checkout />} />
             </Route>
 
             <Route path='*' element={<NotFound />} />
