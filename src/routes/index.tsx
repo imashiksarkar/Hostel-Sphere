@@ -19,6 +19,7 @@ import MealsTable from '@/pages/MealsTable'
 import ReviewsList from '@/pages/ReviewsList'
 import ServeMeals from '@/pages/ServeMeals'
 import Checkout from '@/pages/Checkout'
+import PaymentSuccess from '@/pages/PaymentSuccess'
 
 const Routes = () => {
   return (
@@ -43,6 +44,7 @@ const Routes = () => {
 
             <Route element={<RequireLogin />}>
               <Route path='checkout/:plan' element={<Checkout />} />
+              <Route path='payment-success' element={<PaymentSuccess />} />
             </Route>
 
             <Route path='*' element={<NotFound />} />
