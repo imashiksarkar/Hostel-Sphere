@@ -1,37 +1,25 @@
 [
   {
     "_id": "00001",
-    "icon": "truck",
+    "icon": "🚚",
     "title": "Free Delivery",
     "description": "Free Delivery on all orders"
   },
   {
     "_id": "00002",
-    "icon": "clock",
+    "icon": "⏰",
     "title": "Fast Delivery",
     "description": "Fast Delivery on all orders"
   },
   {
     "_id": "00003",
-    "icon": "money",
+    "icon": "💸",
     "title": "Best Price",
     "description": "Best Price on all orders"
   },
   {
     "_id": "00004",
-    "icon": "user",
-    "title": "Customer Support",
-    "description": "Customer Support on all orders"
-  },
-  {
-    "_id": "00005",
-    "icon": "user",
-    "title": "Customer Support",
-    "description": "Customer Support on all orders"
-  },
-  {
-    "_id": "00006",
-    "icon": "user",
+    "icon": "📞",
     "title": "Customer Support",
     "description": "Customer Support on all orders"
   }

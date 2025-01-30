@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import useFetchUpcomingMeals from '@/hooks/useFetchUpcomingMeals'
+import useFetchOfferedServices from '@/hooks/useFetchOfferedServices'
 
 const Services = () => {
-  const { data: meals } = useFetchUpcomingMeals()
+  const { data: services } = useFetchOfferedServices()
   return (
     <section className='our-services'>
       <div className='con py-8'>
@@ -13,16 +13,11 @@ const Services = () => {
 
         <section className='category-tab w-full grid grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] gap-4 py-4'>
           <h1 className='sr-only'>Product List</h1>
-          {meals.map((meal) => (
+          {services?.map((meal) => (
             <Card key={meal._id} className='text-wrap p-4 rounded-lg'>
               <CardHeader className='space-y-0 p-0'>
-                <figure className='w-12 aspect-square overflow-hidden'>
-                  <img
-                    className='w-full h-full object-cover'
-                    src={meal.image}
-                    alt={meal.title}
-                    loading='lazy'
-                  />
+                <figure className='w-12 text-4xl aspect-square overflow-hidden'>
+                  {meal.icon}
                 </figure>
                 <CardTitle className='pt-5 pb-3'>{meal.title}</CardTitle>
               </CardHeader>

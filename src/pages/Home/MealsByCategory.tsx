@@ -64,12 +64,12 @@ const MealsByCategory = () => {
                     </figure>
                     <CardTitle className='pt-5 pb-3'>{meal.title}</CardTitle>
                     <CardDescription className='pb-3'>
-                      {meal.price}
+                      ${meal.price}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className='flex flex-col gap-2 p-0'>
                     <p className='capitalize p-2 bg-red-400/20 w-max rounded-md'>
-                      {meal.rating}
+                      {meal.rating.toFixed(2)}
                     </p>
                   </CardContent>
                   <CardFooter className='p-0 mt-5'>
