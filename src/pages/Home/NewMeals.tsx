@@ -1,8 +1,8 @@
-import useFetchUpcomingMeals from '@/hooks/useFetchUpcomingMeals'
+import useFetchMeals from '@/hooks/useFetchMeals'
 import { Link } from 'react-router'
 
 const NewMeals = () => {
-  const { data: meals } = useFetchUpcomingMeals()
+  const { data } = useFetchMeals('', '-createdAt', 0, 5)
   return (
     <section className='ending-soon-foods'>
       <div className='con py-10 space-y-6'>
@@ -14,7 +14,7 @@ const NewMeals = () => {
           grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))]
            gap-4'
         >
-          {meals?.map((meal) => (
+          {data?.meals?.map((meal) => (
             <li key={meal._id}>
               <Link
                 to={`/meals/${meal._id}`}
