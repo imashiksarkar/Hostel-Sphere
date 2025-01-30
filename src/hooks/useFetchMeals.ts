@@ -1,13 +1,20 @@
 import api from '@/services/axiosService'
+import { Meal } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 
-const useFetchMeals = (sort?: string, skip: number = 0, limit: number = 10) => {
-  return useQuery({
-    queryKey: ['meals', { sort, skip, limit }],
+const useFetchMeals = (
+  category?: string,
+  sort?: string,
+  skip: number = 0,
+  limit: number = 10
+) => {
+  return useQuery<Data>({
+    queryKey: ['meals', { category, sort, skip, limit }],
     queryFn: async () =>
       api
         .get('/meals', {
           params: {
+            category,
             sort,
             skip,
             limit,
@@ -18,3 +25,8 @@ const useFetchMeals = (sort?: string, skip: number = 0, limit: number = 10) => {
 }
 
 export default useFetchMeals
+
+export interface Data {
+  totalDocs: number
+  meals: Meal[]
+}

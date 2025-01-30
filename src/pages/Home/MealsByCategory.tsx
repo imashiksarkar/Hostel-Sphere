@@ -9,12 +9,18 @@ import {
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import useFetchCategories from '@/hooks/useFetchCategories'
-import useFetchUpcomingMeals from '@/hooks/useFetchUpcomingMeals'
+import useFetchMeals from '@/hooks/useFetchMeals'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
 const MealsByCategory = () => {
+  const [category, setCategory] = useState<string>('')
   const { data: categories } = useFetchCategories()
-  const { data: meals } = useFetchUpcomingMeals()
+  const { data } = useFetchMeals(category)
+
+  useEffect(() => {
+    console.log(data?.meals)
+  }, [data])
 
   return (
     <section className='meals-categories'>
@@ -22,9 +28,13 @@ const MealsByCategory = () => {
         <h1 className='text-2xl font-bold'>Meals By Category</h1>
 
         <section className='category-tab w-full'>
-          <Tabs defaultValue='all' className='flex flex-col items-center'>
+          <Tabs
+            defaultValue=''
+            className='flex flex-col items-center'
+            onValueChange={(value) => setCategory(value === 'all' ? '' : value)}
+          >
             <TabsList>
-              <TabsTrigger value='all'>All Meals</TabsTrigger>
+              <TabsTrigger value=''>All Meals</TabsTrigger>
               {categories?.map((category) => (
                 <TabsTrigger
                   key={category._id}
@@ -36,12 +46,13 @@ const MealsByCategory = () => {
               ))}
             </TabsList>
             <TabsContent
-              value='all'
-              className='product-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 py-4 min-h-[24rem]'
+              value={category}
+              className='product-list grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4 min-h-[24rem] w-full'
             >
               <h1 className='sr-only'>Product List</h1>
-              {meals.map((meal) => (
-                <Card key={meal._id} className='text-wrap p-2 rounded-lg'>
+
+              {data?.meals.map((meal) => (
+                <Card key={meal._id} className='text-wrap p-2 rounded-lg max-w-[20rem]'>
                   <CardHeader className='space-y-0 p-0'>
                     <figure className='aspect-video bg-red-300 overflow-hidden'>
                       <img
