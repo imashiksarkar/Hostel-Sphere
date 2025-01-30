@@ -17,6 +17,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import useFetchMeals from '@/hooks/useFetchMeals'
+import { Meal } from '@/types'
 
 import {
   ColumnDef,
@@ -33,34 +34,6 @@ import {
 import { ChevronDown, MoreHorizontal } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router'
-
-// const data: Meal[] = [
-//   {
-//     id: 'm5gr84i9',
-//     title: 'Chicken',
-//     distributorName: 'Ashik',
-//     likesCount: 150,
-//     rating: 4.5,
-//     reviewsCount: 1023,
-//   },
-//   {
-//     id: 'm5gr84ia9',
-//     title: 'Chicken',
-//     distributorName: 'Ashik',
-//     likesCount: 150,
-//     rating: 4.5,
-//     reviewsCount: 1023,
-//   },
-// ]
-
-export type Meal = {
-  _id: string
-  title: string
-  likesCount: number
-  reviewsCount: number
-  rating: number
-  distributorName: string
-}
 
 const useColumns = (): ColumnDef<Meal>[] => {
   return [
@@ -185,8 +158,8 @@ const MealsTable = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [skip, setSkip] = useState((currentPage - 1) * resultPerPage)
 
-  const { data: res, isLoading } = useFetchMeals(sort.value, skip)
-  
+  const { data: res, isLoading } = useFetchMeals('', sort.value, skip)
+
   const [totalPages] = useState(
     Math.ceil((res?.totalDocs || 0) / resultPerPage) || 1
   )
