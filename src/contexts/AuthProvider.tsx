@@ -82,10 +82,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logOut = async () => {
     signOut(auth)
-    await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
   }
 
   const resetPassword = (email: string) => {
