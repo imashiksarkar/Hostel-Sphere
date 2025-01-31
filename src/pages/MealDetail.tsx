@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthProvider'
 import useFetchMeal from '@/hooks/useFetchMeal'
+import api from '@/services/axiosService'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 const FoodDetail = () => {
   const { user, loading } = useAuth()
@@ -11,22 +13,11 @@ const FoodDetail = () => {
 
   const { data: meal, isFetching } = useFetchMeal(mealId as string)
 
-  // const deleteFoodMutation = useDeleteFood(mealId as string)
-  // const createFoodRequestMutation = useCreateFoodRequest(mealId as string)
-
   const [isAuthor, setIsAuthor] = useState(false)
 
   user
     ?.getIdTokenResult(true)
     .then((res) => setIsAuthor(res.claims.role === 'admin'))
-
-  const handleDeleteFood = async () => {
-    // deleteFoodMutation.mutate(mealId as string, {
-    //   onSuccess: () => {
-    //     navigate('/dashboard/foods')
-    //   },
-    // })
-  }
 
   const handleMakeRequest = async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -37,6 +28,11 @@ const FoodDetail = () => {
       },
     })
   }
+
+  const { data: numLikes } = useQuery({
+    queryKey: ['food-likes', mealId],
+    queryFn: () => api.get(`/likes/${mealId}`).then((res) => res.data.data),
+  })
 
   return (
     <section className='food-detail'>
@@ -66,18 +62,12 @@ const FoodDetail = () => {
                 <p className='p-2 bg-red-600/15 w-max capitalize rounded-md'>
                   {meal.status}
                 </p>
+                <p className='p-2 bg-red-600/15 w-max capitalize rounded-md'>
+                  Likes {numLikes}
+                </p>
+                <Button className='w-max'>Like</Button>
 
                 <div className='flex items-center gap-4'>
-                  {isAuthor && (
-                    <>
-                      <Button className='w-max' asChild>
-                        <Link to={`/foods/${meal._id}/edit`}>Update food</Link>
-                      </Button>
-                      <Button onClick={handleDeleteFood} className='w-max'>
-                        Delete food
-                      </Button>
-                    </>
-                  )}
                   {!isAuthor && meal.status === 'available' && (
                     <Button onClick={handleMakeRequest} className='w-max'>
                       Make Request

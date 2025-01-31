@@ -26,51 +26,63 @@ import NavMain from './NavMain'
 import NavUser from './NavUser'
 import { useAuth } from '@/contexts/AuthProvider'
 
-const data = {
-  navMain: [
-    {
-      title: 'My Profile',
-      url: '/dashboard',
-      icon: User,
-      isActive: true,
-    },
-    {
-      title: 'Users Roles',
-      icon: UserRoundPen,
-      url: '/dashboard/users',
-    },
-    {
-      title: 'All Meals',
-      url: '/dashboard/meals',
-      icon: Table,
-    },
-    {
-      title: 'Requested Meals',
-      url: '/dashboard/meals/requested',
-      icon: Heater,
-    },
-    {
-      title: 'Add Meal',
-      url: '/dashboard/meals/add',
-      icon: CookingPot,
-    },
-    {
-      title: 'Serve Meals',
-      url: '/dashboard/meals/serve',
-      icon: HandPlatter,
-    },
-    {
-      title: 'Reviews',
-      url: '/dashboard/reviews',
-      icon: Star,
-    },
-  ],
-}
-
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   const { user } = useAuth()
 
   const { displayName, email, photoURL } = user!
+
+  const [isAdmin, setIsAdmin] = React.useState(false)
+
+  user?.getIdTokenResult(true).then((idTokenResult) => {
+    setIsAdmin(idTokenResult.claims.role === 'admin')
+  })
+
+  const data = {
+    navMain: [
+      {
+        title: 'My Profile',
+        url: '/dashboard',
+        icon: User,
+        isActive: true,
+      },
+      {
+        title: 'Users Roles',
+        icon: UserRoundPen,
+        url: '/dashboard/users',
+      },
+      {
+        title: 'All Meals',
+        url: '/dashboard/meals',
+        icon: Table,
+      },
+      {
+        title: 'Requested Meals',
+        url: '/dashboard/meals/requested',
+        icon: Heater,
+      },
+      {
+        title: 'Add Meal',
+        url: '/dashboard/meals/add',
+        icon: CookingPot,
+      },
+      {
+        title: 'Serve Meals',
+        url: '/dashboard/meals/serve',
+        icon: HandPlatter,
+      },
+      {
+        title: 'Reviews',
+        url: '/dashboard/reviews',
+        icon: Star,
+      },
+    ],
+  }
+
+  if (isAdmin) {
+    delete data.navMain[3]
+  } else {
+    ;[1, 2, 4, 5, 6].forEach((i) => delete data.navMain[i])
+  }
 
   return (
     <Sidebar collapsible='icon' {...props}>
