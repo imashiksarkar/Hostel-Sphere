@@ -55,13 +55,6 @@ export type Review = {
 }
 
 const useColumns = (): ColumnDef<Review>[] => {
-  // const onToggleAdmin = useCallback(
-  //   (userId: string) => () => {
-  //     console.log(userId)
-  //   },
-  //   []
-  // )
-
   return [
     {
       accessorKey: 'title',

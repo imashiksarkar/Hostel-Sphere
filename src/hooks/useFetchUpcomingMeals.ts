@@ -1,8 +1,21 @@
-import meals from '@/data/meals.dummy.json'
-import { Meal } from '@/types'
+import api from '@/services/axiosService'
+import { useQuery } from '@tanstack/react-query'
 
 const useFetchUpcomingMeals = () => {
-  return { data: meals as unknown as Meal[] }
+  return useQuery({
+    queryKey: ['upcomingMeals'],
+    queryFn: async () =>
+      api
+        .get('/meals', {
+          params: {
+            sort: '-createdAt',
+            status: 'upcoming',
+          },
+        })
+        .then((res) => {
+          return res.data.data
+        }),
+  })
 }
 
 export default useFetchUpcomingMeals
