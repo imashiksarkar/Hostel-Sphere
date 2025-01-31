@@ -21,6 +21,7 @@ import ServeMeals from '@/pages/ServeMeals'
 import Checkout from '@/pages/Checkout'
 import PaymentSuccess from '@/pages/PaymentSuccess'
 import RequireRole from './RequireRole'
+import FoodDetail from '@/pages/MealDetail'
 
 const Routes = () => {
   return (
@@ -36,6 +37,7 @@ const Routes = () => {
             <Route path='meals'>
               <Route index element={<ExploreMeals />} />
               <Route path='upcoming' element={<UpcomingMeals />} />
+              <Route path=':mealId' element={<FoodDetail />} />
             </Route>
 
             <Route element={<RequireNotLogin />}>
