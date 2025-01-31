@@ -1,14 +1,12 @@
-import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from '@/components/ui/card'
 import { plans } from '@/constants'
-import { Badge } from '@/components/ui/badge'
 import { Link } from 'react-router'
 
 const Pricing = () => {
@@ -22,34 +20,31 @@ const Pricing = () => {
 
         <ul className='plans grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] grid-rows-1 gap-4 w-full py-8'>
           {plans.map((plan) => (
-            <li key={plan._id}>
-              <Card
-                key={plan._id}
-                className='text-wrap p-4 rounded-lg flex flex-col items-center h-full'
-              >
-                <CardHeader className='space-y-0 p-0 text-center'>
-                  <CardTitle className='pt-5 pb-3 uppercase'>
-                    {plan.name}
-                  </CardTitle>
-                  <CardDescription className='pb-3 flex flex-col'>
-                    {plan.recommended && <Badge>Recommended</Badge>}
-                    <p className='text-2xl mt-8'>${plan.price}</p>
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className='flex flex-col gap-2 p-0 self-start'>
-                  <ul className='list-disc list-inside pl-4 space-y-2'>
-                    {plan.features.map((feature) => (
-                      <li key={feature}>{feature}</li>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardFooter className='p-0 pt-5 mt-auto w-full'>
-                  <Button asChild className='w-full'>
-                    <Link to={`/checkout/${plan.name}`}>Checkout</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            </li>
+            <Link to={`/checkout/${plan.name}`} key={plan._id}>
+              <li className='h-full'>
+                <Card
+                  key={plan._id}
+                  className='text-wrap p-4 rounded-lg flex flex-col items-center h-full'
+                >
+                  <CardHeader className='space-y-0 p-0 text-center'>
+                    <CardTitle className='pt-5 pb-3 uppercase'>
+                      {plan.name}
+                    </CardTitle>
+                    <CardDescription className='pb-3 flex flex-col'>
+                      {plan.recommended && <Badge>Recommended</Badge>}
+                      <p className='text-2xl mt-8'>${plan.price}</p>
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className='flex flex-col gap-2 p-0 self-start'>
+                    <ul className='list-disc list-inside pl-4 space-y-2'>
+                      {plan.features.map((feature) => (
+                        <li key={feature}>{feature}</li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

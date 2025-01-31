@@ -2,7 +2,10 @@ import useFetchMeals from '@/hooks/useFetchMeals'
 import { Link } from 'react-router'
 
 const NewMeals = () => {
-  const { data } = useFetchMeals('', '-createdAt', 0, 5)
+  const { data } = useFetchMeals({
+    sort: '-createdAt',
+    limit: 5,
+  })
   return (
     <section className='ending-soon-foods'>
       <div className='con py-10 space-y-6'>

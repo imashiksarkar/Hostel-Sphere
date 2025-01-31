@@ -10,17 +10,16 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import useFetchCategories from '@/hooks/useFetchCategories'
 import useFetchMeals from '@/hooks/useFetchMeals'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router'
 
 const MealsByCategory = () => {
-  const [category, setCategory] = useState<string>('')
+  const [category, setCategory] = useState<string>('all')
   const { data: categories } = useFetchCategories()
-  const { data } = useFetchMeals(category)
-
-  useEffect(() => {
-    console.log(data?.meals)
-  }, [data])
+  const { data } = useFetchMeals({
+    category: category === 'all' ? undefined : category,
+    limit: 5,
+  })
 
   return (
     <section className='meals-categories'>
@@ -29,12 +28,12 @@ const MealsByCategory = () => {
 
         <section className='category-tab w-full'>
           <Tabs
-            defaultValue=''
+            defaultValue='all'
             className='flex flex-col items-center'
-            onValueChange={(value) => setCategory(value === 'all' ? '' : value)}
+            onValueChange={(value) => setCategory(value)}
           >
             <TabsList>
-              <TabsTrigger value=''>All Meals</TabsTrigger>
+              <TabsTrigger value='all'>All Meals</TabsTrigger>
               {categories?.map((category) => (
                 <TabsTrigger
                   key={category._id}
@@ -52,7 +51,10 @@ const MealsByCategory = () => {
               <h1 className='sr-only'>Product List</h1>
 
               {data?.meals.map((meal) => (
-                <Card key={meal._id} className='text-wrap p-2 rounded-lg max-w-[20rem]'>
+                <Card
+                  key={meal._id}
+                  className='text-wrap p-2 rounded-lg max-w-[20rem]'
+                >
                   <CardHeader className='space-y-0 p-0'>
                     <figure className='aspect-video bg-red-300 overflow-hidden'>
                       <img

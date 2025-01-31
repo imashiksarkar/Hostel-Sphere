@@ -20,6 +20,7 @@ import ReviewsList from '@/pages/ReviewsList'
 import ServeMeals from '@/pages/ServeMeals'
 import Checkout from '@/pages/Checkout'
 import PaymentSuccess from '@/pages/PaymentSuccess'
+import RequireRole from './RequireRole'
 
 const Routes = () => {
   return (
@@ -43,7 +44,9 @@ const Routes = () => {
             </Route>
 
             <Route element={<RequireLogin />}>
-              <Route path='checkout/:plan' element={<Checkout />} />
+              <Route element={<RequireRole role='user' />}>
+                <Route path='checkout/:plan' element={<Checkout />} />
+              </Route>
               <Route path='payment-success' element={<PaymentSuccess />} />
             </Route>
 

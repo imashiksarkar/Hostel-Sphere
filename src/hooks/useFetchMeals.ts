@@ -2,14 +2,19 @@ import api from '@/services/axiosService'
 import { Meal } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 
-const useFetchMeals = (
-  category?: string,
-  sort?: string,
-  skip: number = 0,
-  limit: number = 10
-) => {
+const useFetchMeals = (query?: {
+  category?: string
+  sort?: string
+  skip?: number
+  limit?: number
+  minPrice?: number
+  maxPrice?: number
+  q?: string
+}) => {
+  const { category, sort, skip, limit, minPrice, maxPrice, q } = query || {}
   return useQuery<Data>({
-    queryKey: ['meals', { category, sort, skip, limit }],
+    queryKey: ['meals', query],
+    staleTime: 1000 * 60 * 60,
     queryFn: async () =>
       api
         .get('/meals', {
@@ -18,6 +23,9 @@ const useFetchMeals = (
             sort,
             skip,
             limit,
+            'price[lte]': maxPrice,
+            'price[gte]': minPrice,
+            q,
           },
         })
         .then((res) => res.data.data),
