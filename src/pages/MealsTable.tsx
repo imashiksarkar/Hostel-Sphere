@@ -158,7 +158,10 @@ const MealsTable = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [skip, setSkip] = useState((currentPage - 1) * resultPerPage)
 
-  const { data: res, isLoading } = useFetchMeals('', sort.value, skip)
+  const { data: res, isLoading } = useFetchMeals({
+    skip,
+    limit: resultPerPage,
+  })
 
   const [totalPages] = useState(
     Math.ceil((res?.totalDocs || 0) / resultPerPage) || 1
