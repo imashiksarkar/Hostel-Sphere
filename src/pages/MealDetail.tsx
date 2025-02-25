@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthProvider'
 import useFetchMeal from '@/hooks/useFetchMeal'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import { Badge } from '@/components/ui/badge'
@@ -10,15 +10,17 @@ import { FaThumbsUp } from 'react-icons/fa'
 
 const FoodDetail = () => {
   const { user, loading } = useAuth()
+
   const { mealId } = useParams()
   const navigate = useNavigate()
 
   const { data: meal, isFetching } = useFetchMeal(mealId as string)
 
-  useEffect(() => {
-    console.log(meal)
-  }, [meal])
+  // useEffect(() => {
+  //   console.log(meal?.distributor.fbId === user?.uid)
+  // }, [meal, user])
 
+  const isSameUser = meal?.distributor.fbId === user?.uid
   const [isAuthor, setIsAuthor] = useState<boolean | null>(null)
 
   user
@@ -34,11 +36,6 @@ const FoodDetail = () => {
       },
     })
   }
-
-  // const { data: numLikes } = useQuery({
-  //   queryKey: ['food-likes', mealId],
-  //   queryFn: () => api.get(`/likes/${mealId}`).then((res) => res.data.data),
-  // })
 
   return (
     <section className='food-detail'>
@@ -89,6 +86,7 @@ const FoodDetail = () => {
                         !meal?.isLikedByUser &&
                           '[&:hover>_svg]:opacity-100 [&:hover>_svg]:text-green-500'
                       )}
+                      disabled={isSameUser}
                     >
                       <FaThumbsUp
                         className={cn(
