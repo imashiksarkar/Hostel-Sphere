@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthProvider'
 import api from '@/services/axiosService'
 import { Meal } from '@/types'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 const useFetchMeal = (mealId: string) => {
@@ -13,7 +13,7 @@ const useFetchMeal = (mealId: string) => {
   })
 
   return useQuery<Meal>({
-    queryKey: ['meal', mealId, { accessToken }],
+    queryKey: ['meals', mealId, { accessToken }],
     queryFn: async () => {
       return api
         .get(`/meals/${mealId}`, {
@@ -29,6 +29,7 @@ const useFetchMeal = (mealId: string) => {
           return res.data.data
         })
     },
+    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 60, // 1 hour
   })
 }

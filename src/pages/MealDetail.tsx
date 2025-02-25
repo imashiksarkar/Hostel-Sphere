@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthProvider'
 import useFetchMeal from '@/hooks/useFetchMeal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { FaThumbsUp } from 'react-icons/fa'
+import useLikes from '@/hooks/useLikes'
 
 const FoodDetail = () => {
   const { user, loading } = useAuth()
@@ -14,18 +15,25 @@ const FoodDetail = () => {
   const { mealId } = useParams()
   const navigate = useNavigate()
 
-  const { data: meal, isFetching } = useFetchMeal(mealId as string)
+  const { data: meal, isLoading } = useFetchMeal(mealId as string)
+  const { createLike, unlike } = useLikes()
 
-  // useEffect(() => {
-  //   console.log(meal?.distributor.fbId === user?.uid)
-  // }, [meal, user])
+  const handleLike = () => {
+    if (!meal?._id) return
+
+    if (meal.isLikedByUser) return unlike.mutate(meal._id)
+
+    createLike.mutate(meal._id)
+  }
 
   const isSameUser = meal?.distributor.fbId === user?.uid
   const [isAuthor, setIsAuthor] = useState<boolean | null>(null)
 
-  user
-    ?.getIdTokenResult(true)
-    .then((res) => setIsAuthor(res.claims.role === 'admin'))
+  useEffect(() => {
+    user
+      ?.getIdTokenResult(true)
+      .then((res) => setIsAuthor(res.claims.role === 'admin'))
+  }, [user])
 
   const handleMakeRequest = async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -40,7 +48,7 @@ const FoodDetail = () => {
   return (
     <section className='food-detail'>
       <div className='con py-12'>
-        {isFetching || loading ? (
+        {isLoading || loading ? (
           <div className='h-screen w-full flex gap-7 flex-col justify-center items-center'>
             <p>Fetching Food...</p>
           </div>
@@ -87,6 +95,7 @@ const FoodDetail = () => {
                           '[&:hover>_svg]:opacity-100 [&:hover>_svg]:text-green-500'
                       )}
                       disabled={isSameUser}
+                      onClick={handleLike}
                     >
                       <FaThumbsUp
                         className={cn(
@@ -97,7 +106,7 @@ const FoodDetail = () => {
                       />
                     </Button>
                     <p className='w-max capitalize rounded-md mt-3 text-xl'>
-                      {meal.numLikes} Likes
+                      {meal.numLikes || 0} Likes
                     </p>
                   </div>
                   <div className='flex items-center gap-4'>
