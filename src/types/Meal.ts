@@ -4,13 +4,14 @@ export default interface Meal {
   image: string
   price: number
   description: string
+  numLikes: number
   status: 'upcoming' | 'available' | 'delivered'
   category: 'breakfast' | 'lunch' | 'dinner'
-  distributor: string // ref -> users._id
+  distributor: { _id: string; fbId: string; name: string } // ref -> users
   ingredients: string[]
   rating: number
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }
 
 export interface MealsRequest {
