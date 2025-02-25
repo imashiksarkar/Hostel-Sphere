@@ -99,7 +99,7 @@ const FoodDetail = () => {
                       />
                     </Button>
                     <p className='w-max capitalize rounded-md mt-3 text-xl'>
-                      {meal.numLikes || (meal?.isLikedByUser ? 1 : 0)} Likes
+                      {meal.numLikes} Likes
                     </p>
                   </div>
                   <div className='flex items-center gap-4'>
