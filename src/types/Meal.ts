@@ -5,6 +5,7 @@ export default interface Meal {
   price: number
   description: string
   numLikes: number
+  isLikedByUser?: boolean
   status: 'upcoming' | 'available' | 'delivered'
   category: 'breakfast' | 'lunch' | 'dinner'
   distributor: { _id: string; fbId: string; name: string } // ref -> users

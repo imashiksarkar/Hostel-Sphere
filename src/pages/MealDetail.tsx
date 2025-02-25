@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthProvider'
 import useFetchMeal from '@/hooks/useFetchMeal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import { Badge } from '@/components/ui/badge'
@@ -14,6 +14,10 @@ const FoodDetail = () => {
   const navigate = useNavigate()
 
   const { data: meal, isFetching } = useFetchMeal(mealId as string)
+
+  useEffect(() => {
+    console.log(meal)
+  }, [meal])
 
   const [isAuthor, setIsAuthor] = useState<boolean | null>(null)
 
@@ -82,19 +86,20 @@ const FoodDetail = () => {
                       variant={'link'}
                       className={cn(
                         'p-2 w-max h-max [&_svg]:size-auto [&:hover>_svg]:opacity-60',
-                        !meal?.isLiked &&
+                        !meal?.isLikedByUser &&
                           '[&:hover>_svg]:opacity-100 [&:hover>_svg]:text-green-500'
                       )}
                     >
                       <FaThumbsUp
                         className={cn(
                           'text-3xl transition-[opacity] duration-200 text-gray-500 dark:text-green-50',
-                          meal?.isLiked && 'text-green-500'
+                          meal?.isLikedByUser && 'text-green-500',
+                          meal?.isLikedByUser && 'dark:text-green-500'
                         )}
                       />
                     </Button>
                     <p className='w-max capitalize rounded-md mt-3 text-xl'>
-                      {meal.numLikes || 0} Likes
+                      {meal.numLikes || (meal?.isLikedByUser ? 1 : 0)} Likes
                     </p>
                   </div>
                   <div className='flex items-center gap-4'>
@@ -106,6 +111,7 @@ const FoodDetail = () => {
                   </div>
                 </div>
               </div>
+              {/* reviews */}
               <div className='reviews mt-8'>
                 <h2 className='text-2xl font-bold text-center'>Reviews</h2>
                 <ul className='mt-4'>
