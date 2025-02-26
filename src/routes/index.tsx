@@ -22,6 +22,7 @@ import Checkout from '@/pages/Checkout'
 import PaymentSuccess from '@/pages/PaymentSuccess'
 import RequireRole from './RequireRole'
 import FoodDetail from '@/pages/MealDetail'
+import PaymentHistory from '@/pages/PaymentHistory'
 
 const Routes = () => {
   return (
@@ -68,6 +69,7 @@ const Routes = () => {
               <Route path='users' element={<Users />} />
               <Route path='users/:id' element={<UserProfile />} />
               <Route path='reviews' element={<ReviewsList />} />
+              <Route path='payments' element={<PaymentHistory />} />
             </Route>
           </Route>
         </RouterRoutes>

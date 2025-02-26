@@ -8,6 +8,7 @@ import {
   Table,
   Star,
   HandPlatter,
+  CreditCard,
 } from 'lucide-react'
 import * as React from 'react'
 
@@ -49,11 +50,13 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         title: 'Users Roles',
         icon: UserRoundPen,
         url: '/dashboard/users',
+        role: 'admin',
       },
       {
         title: 'All Meals',
         url: '/dashboard/meals',
         icon: Table,
+        role: 'admin',
       },
       {
         title: 'Requested Meals',
@@ -61,28 +64,35 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         icon: Heater,
       },
       {
+        title: 'Payment History',
+        url: '/dashboard/payments',
+        icon: CreditCard,
+      },
+      {
         title: 'Add Meal',
         url: '/dashboard/meals/add',
         icon: CookingPot,
+        role: 'admin',
       },
       {
         title: 'Serve Meals',
         url: '/dashboard/meals/serve',
         icon: HandPlatter,
+        role: 'admin',
       },
       {
         title: 'Reviews',
         url: '/dashboard/reviews',
         icon: Star,
+        role: 'admin',
       },
     ],
   }
 
-  if (isAdmin) {
-    delete data.navMain[3]
-  } else {
-    ;[1, 2, 4, 5, 6].forEach((i) => delete data.navMain[i])
-  }
+  data.navMain.forEach(({ role }, index) => {
+    if (!isAdmin && role === 'admin') delete data.navMain[index]
+    else if (role === 'user') delete data.navMain[index]
+  })
 
   return (
     <Sidebar collapsible='icon' {...props}>
