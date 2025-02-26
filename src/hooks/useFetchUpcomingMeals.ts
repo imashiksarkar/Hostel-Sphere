@@ -4,8 +4,8 @@ import { useQuery } from '@tanstack/react-query'
 const useFetchUpcomingMeals = () => {
   return useQuery({
     queryKey: ['upcomingMeals'],
-    queryFn: async () =>
-      api
+    queryFn: async () => {
+      return await api
         .get('/meals', {
           params: {
             sort: '-createdAt',
@@ -14,7 +14,8 @@ const useFetchUpcomingMeals = () => {
         })
         .then((res) => {
           return res.data.data
-        }),
+        })
+    },
   })
 }
 

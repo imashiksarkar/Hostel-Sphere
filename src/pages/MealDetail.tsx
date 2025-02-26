@@ -26,7 +26,7 @@ const FoodDetail = () => {
     createLike.mutate(meal._id)
   }
 
-  const isSameUser = meal?.distributor.fbId === user?.uid
+  const isSameUser = meal?.distributor?.fbId === user?.uid
   const [isAuthor, setIsAuthor] = useState<boolean | null>(null)
 
   user
