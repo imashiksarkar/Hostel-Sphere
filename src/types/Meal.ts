@@ -13,6 +13,21 @@ export default interface Meal {
   rating: number
   createdAt: string
   updatedAt: string
+  subscription?: {
+    _id: string
+    paymentId: string
+    apiVersion: string
+    created: number
+    createdAt: Date
+    currency: string
+    expiresAt: Date
+    paymentMethod: string
+    plan: string
+    price: number
+    type: string
+    updatedAt: Date
+    userId: string
+  }
 }
 
 export interface MealsRequest {

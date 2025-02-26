@@ -92,7 +92,12 @@ const FoodDetail = () => {
                         !meal?.isLikedByUser &&
                           '[&:hover>_svg]:opacity-100 [&:hover>_svg]:text-green-500'
                       )}
-                      disabled={isSameUser}
+                      disabled={
+                        isSameUser ||
+                        !['silver', 'gold', 'platinum'].includes(
+                          meal.subscription?.plan.toLocaleLowerCase() ?? ''
+                        )
+                      }
                       onClick={handleLike}
                     >
                       <FaThumbsUp
