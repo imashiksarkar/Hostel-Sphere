@@ -1,6 +1,6 @@
 import { useAuth } from '@/contexts/AuthProvider'
 import { useToast } from '@/hooks/use-toast'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router'
 
 const RequireRole = ({
@@ -15,24 +15,28 @@ const RequireRole = ({
   const navigate = useNavigate()
   const { toast } = useToast()
 
+  useEffect(() => {
+    user
+      ?.getIdTokenResult()
+      .then((idTokenResult) => {
+        const userRole = (idTokenResult.claims.role as string) || 'user'
+
+        if (userRole !== role) {
+          toast({
+            title: 'Unauthorized',
+            description: 'You are not authorized to access this page',
+            variant: 'destructive',
+          })
+          return navigate('/')
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching claims:', error)
+      })
+  }, [user, role, navigate, toast])
+
   if (loading) return loader
   else if (!user) return <Navigate to='/login' state={{ from: pathname }} />
-
-  user
-    .getIdTokenResult(true)
-    .then((idTokenResult) => {
-      if (idTokenResult.claims.role !== role) {
-        toast({
-          title: 'Unauthorized',
-          description: 'You are not authorized to access this page',
-          variant: 'destructive',
-        })
-        return navigate('/')
-      }
-    })
-    .catch((error) => {
-      console.error('Error fetching claims:', error)
-    })
 
   return <Outlet />
 }
