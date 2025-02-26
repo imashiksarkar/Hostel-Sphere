@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthProvider'
 import useFetchMeal from '@/hooks/useFetchMeal'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import { Badge } from '@/components/ui/badge'
+import useLikes from '@/hooks/useLikes'
 import { cn } from '@/lib/utils'
 import { FaThumbsUp } from 'react-icons/fa'
-import useLikes from '@/hooks/useLikes'
 
 const FoodDetail = () => {
   const { user, loading } = useAuth()
@@ -29,11 +29,9 @@ const FoodDetail = () => {
   const isSameUser = meal?.distributor.fbId === user?.uid
   const [isAuthor, setIsAuthor] = useState<boolean | null>(null)
 
-  useEffect(() => {
-    user
-      ?.getIdTokenResult(true)
-      .then((res) => setIsAuthor(res.claims.role === 'admin'))
-  }, [user])
+  user
+    ?.getIdTokenResult()
+    .then((res) => setIsAuthor(res?.claims?.role === 'admin'))
 
   const handleMakeRequest = async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

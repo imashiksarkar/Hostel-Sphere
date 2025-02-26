@@ -7,9 +7,20 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { plans } from '@/constants'
+import { useAuth } from '@/contexts/AuthProvider'
+import { useState } from 'react'
 import { Link } from 'react-router'
 
 const Pricing = () => {
+  const { user } = useAuth()
+  const [isAdmin, setIsAdmin] = useState(true)
+
+  user
+    ?.getIdTokenResult()
+    .then((userToken) => setIsAdmin(userToken?.claims?.role === 'admin'))
+
+  if (isAdmin) return null
+
   return (
     <section className='pricing'>
       <div className='con flex flex-col gap-4 items-center py-8'>
