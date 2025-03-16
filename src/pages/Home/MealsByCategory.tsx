@@ -64,7 +64,7 @@ const MealsByCategory = () => {
                         loading='lazy'
                       />
                     </figure>
-                    <CardTitle className='pt-5 pb-3'>{meal.title}</CardTitle>
+                    <CardTitle className='pt-5 pb-3 overflow-hidden'>{meal.title}</CardTitle>
                     <CardDescription className='pb-3'>
                       ${meal.price}
                     </CardDescription>
