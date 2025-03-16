@@ -30,7 +30,7 @@ const NewMeals = () => {
                     alt={meal.title}
                     loading='lazy'
                   />
-                  <summary className='bg-black bg-opacity-80 p-4 py-1 text-white'>
+                  <summary className='bg-black bg-opacity-80 p-4 py-1 text-white text-nowrap overflow-hidden'>
                     {meal.title}
                   </summary>
                 </figure>
