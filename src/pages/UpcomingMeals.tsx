@@ -18,7 +18,7 @@ const UpcomingMeals = () => {
     <main className='upcoming-meals-page'>
       <section className='explore-meals'>
         <div className='con py-8 space-y-8'>
-          {!isLoading && !isError ? (
+          {!isLoading && isError ? (
             <h1 className='text-center text-xl'>
               404 Upcoming Meals Not Found!
             </h1>
