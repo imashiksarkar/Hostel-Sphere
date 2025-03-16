@@ -1,28 +1,29 @@
+import AuthSkeleton from '@/components/AuthSkeleton'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { Toaster } from '@/components/ui/toaster'
+import DashboardLayout from '@/layouts/DashboardLayout'
 import MainLayout from '@/layouts/MainLayout'
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import NotFound from '@/pages/NotFound'
-import Signup from '@/pages/Signup'
-import { BrowserRouter, Routes as RouterRoutes, Route } from 'react-router'
-import RequireNotLogin from './RequireNotLogin'
-import RequireLogin from './RequireLogin'
+import AddMeal from '@/pages/AddMeal'
+import Checkout from '@/pages/Checkout'
 import Dashboard from '@/pages/Dashboard'
 import ExploreMeals from '@/pages/ExploreMeals'
-import UpcomingMeals from '@/pages/UpcomingMeals'
-import DashboardLayout from '@/layouts/DashboardLayout'
-import Users from '@/pages/Users'
-import UserProfile from '@/pages/UserProfile'
-import AddMeal from '@/pages/AddMeal'
+import Home from '@/pages/Home'
+import Login from '@/pages/Login'
+import FoodDetail from '@/pages/MealDetail'
 import MealsTable from '@/pages/MealsTable'
+import NotFound from '@/pages/NotFound'
+import PaymentHistory from '@/pages/PaymentHistory'
+import PaymentSuccess from '@/pages/PaymentSuccess'
 import ReviewsList from '@/pages/ReviewsList'
 import ServeMeals from '@/pages/ServeMeals'
-import Checkout from '@/pages/Checkout'
-import PaymentSuccess from '@/pages/PaymentSuccess'
+import Signup from '@/pages/Signup'
+import UpcomingMeals from '@/pages/UpcomingMeals'
+import UserProfile from '@/pages/UserProfile'
+import Users from '@/pages/Users'
+import { BrowserRouter, Route, Routes as RouterRoutes } from 'react-router'
+import RequireLogin from './RequireLogin'
+import RequireNotLogin from './RequireNotLogin'
 import RequireRole from './RequireRole'
-import FoodDetail from '@/pages/MealDetail'
-import PaymentHistory from '@/pages/PaymentHistory'
 
 const Routes = () => {
   return (
@@ -41,7 +42,7 @@ const Routes = () => {
               <Route path=':mealId' element={<FoodDetail />} />
             </Route>
 
-            <Route element={<RequireNotLogin />}>
+            <Route element={<RequireNotLogin loader={<AuthSkeleton />} />}>
               <Route path='login' element={<Login />} />
               <Route path='signup' element={<Signup />} />
             </Route>

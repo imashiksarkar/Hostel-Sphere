@@ -1,3 +1,4 @@
+import AuthSkeleton from '@/components/AuthSkeleton'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -18,7 +19,7 @@ const Login = () => {
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false)
   const [isLoadingPassword, setIsLoadingPassword] = useState(false)
 
-  const { loginWithGoogle, logIn } = useAuth()
+  const { loginWithGoogle, logIn, loading } = useAuth()
   const { toast } = useToast()
   const mailRef = useRef<null | HTMLInputElement>(null)
   const { state } = useLocation()
@@ -75,81 +76,86 @@ const Login = () => {
   }
 
   return (
-    <section className={`login-page`}>
-      <div className='con my-12'>
-        <form onSubmit={handleSubmit}>
-          <Card className='mx-auto max-w-sm'>
-            <CardHeader>
-              <CardTitle className='text-2xl'>Login</CardTitle>
-              <CardDescription>
-                Enter your email below to login to your account
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className='grid gap-4'>
-                <div className='grid gap-2'>
-                  <Label htmlFor='email'>Email</Label>
-                  <Input
-                    id='email'
-                    type='email'
-                    name='email'
-                    placeholder='m@example.com'
-                    required
-                    autoComplete='email'
-                    ref={mailRef}
-                  />
-                </div>
-                <div className='grid gap-2'>
-                  <Label htmlFor='password'>Password</Label>
-                  <Input
-                    id='password'
-                    type='password'
-                    name='password'
-                    required
-                    placeholder='Type your password.'
-                    autoComplete='current-password'
-                  />
-                  {passErr && (
-                    <span className='text-red-500 text-sm'>
-                      Password must be at least 6 characters long
-                      <br />
-                      one uppercase letter
-                      <br />
-                      one lowercase letter
-                      <br />
-                      one number
-                      <br />
-                      one special character.
-                    </span>
-                  )}
-                </div>
-                <Button type='submit' className='w-full'>
-                  {isLoadingPassword ? 'Loading...' : 'Login'}
-                </Button>
-                <Button
-                  variant='outline'
-                  className='w-full'
-                  type='button'
-                  onClick={handleGoogleLogin}
-                >
-                  {isLoadingGoogle ? 'Loading...' : 'Login with Google'}
-                </Button>
-              </div>
-              <div className='mt-4 text-center text-sm'>
-                <span>Don&apos;t have an account?</span>{' '}
-                <Link
-                  to='/signup'
-                  className='underline'
-                  state={{ from: destination }}
-                >
-                  Signup
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </form>
-      </div>
-    </section>
+    <>
+      <section className={`login-page`}>
+        <div className='con my-12'>
+          {loading && <AuthSkeleton />}
+          {!loading && (
+            <form onSubmit={handleSubmit}>
+              <Card className='mx-auto max-w-sm'>
+                <CardHeader>
+                  <CardTitle className='text-2xl'>Login</CardTitle>
+                  <CardDescription>
+                    Enter your email below to login to your account
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className='grid gap-4'>
+                    <div className='grid gap-2'>
+                      <Label htmlFor='email'>Email</Label>
+                      <Input
+                        id='email'
+                        type='email'
+                        name='email'
+                        placeholder='m@example.com'
+                        required
+                        autoComplete='email'
+                        ref={mailRef}
+                      />
+                    </div>
+                    <div className='grid gap-2'>
+                      <Label htmlFor='password'>Password</Label>
+                      <Input
+                        id='password'
+                        type='password'
+                        name='password'
+                        required
+                        placeholder='Type your password.'
+                        autoComplete='current-password'
+                      />
+                      {passErr && (
+                        <span className='text-red-500 text-sm'>
+                          Password must be at least 6 characters long
+                          <br />
+                          one uppercase letter
+                          <br />
+                          one lowercase letter
+                          <br />
+                          one number
+                          <br />
+                          one special character.
+                        </span>
+                      )}
+                    </div>
+                    <Button type='submit' className='w-full'>
+                      {isLoadingPassword ? 'Loading...' : 'Login'}
+                    </Button>
+                    <Button
+                      variant='outline'
+                      className='w-full'
+                      type='button'
+                      onClick={handleGoogleLogin}
+                    >
+                      {isLoadingGoogle ? 'Loading...' : 'Login with Google'}
+                    </Button>
+                  </div>
+                  <div className='mt-4 text-center text-sm'>
+                    <span>Don&apos;t have an account?</span>{' '}
+                    <Link
+                      to='/signup'
+                      className='underline'
+                      state={{ from: destination }}
+                    >
+                      Signup
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            </form>
+          )}
+        </div>
+      </section>
+    </>
   )
 }
 
