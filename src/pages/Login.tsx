@@ -14,6 +14,17 @@ import { useToast } from '@/hooks/use-toast'
 import { FormEventHandler, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 
+const userCreds: Record<string, { email: string; password: string }> = {
+  user: {
+    email: 'alex@mail.com',
+    password: 'Alex1@',
+  },
+  admin: {
+    email: 'miller@mail.com',
+    password: 'Miller1@',
+  },
+} as const
+
 const Login = () => {
   const [passErr, setPassErr] = useState(false)
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false)
@@ -88,6 +99,27 @@ const Login = () => {
                   <CardDescription>
                     Enter your email below to login to your account
                   </CardDescription>
+                  <div className='creds-btns flex gap-4 pt-4'>
+                    {Object.keys(userCreds).map((key) => (
+                      <Button
+                        key={key}
+                        variant={'secondary'}
+                        type='button'
+                        onClick={() => {
+                          mailRef.current!.value = userCreds[key].email
+                          ;(
+                            document.getElementById(
+                              'password'
+                            ) as HTMLInputElement
+                          ).value = userCreds[key].password
+                        }}
+                      >
+                        {key.toUpperCase()}
+                      </Button>
+                    ))}
+                    {/* <Button variant={'secondary'}>User</Button>
+                    <Button variant={'secondary'}>Admin</Button> */}
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className='grid gap-4'>
