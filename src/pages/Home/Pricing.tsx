@@ -13,7 +13,7 @@ import { Link } from 'react-router'
 
 const Pricing = () => {
   const { user } = useAuth()
-  const [isAdmin, setIsAdmin] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
 
   user
     ?.getIdTokenResult()
