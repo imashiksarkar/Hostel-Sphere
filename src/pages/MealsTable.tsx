@@ -50,8 +50,8 @@ const useColumns = (): ColumnDef<Meal>[] => {
         return <div className='text-center'>Distributor</div>
       },
       cell: ({ row }) => (
-        <div className='lowercase text-center'>
-          {row.getValue('distributor')}
+        <div className='text-center'>
+          {row?.original?.distributor?.name || 'Unknown'}
         </div>
       ),
     },
@@ -162,6 +162,10 @@ const MealsTable = () => {
     skip,
     limit: resultPerPage,
   })
+
+  console.log(res?.meals)
+
+  // return null
 
   const [totalPages] = useState(
     Math.ceil((res?.totalDocs || 0) / resultPerPage) || 1
