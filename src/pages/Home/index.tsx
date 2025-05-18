@@ -5,6 +5,7 @@ import Services from './Services'
 import NewMeals from './NewMeals'
 import HowItWorks from '@/components/HowItWorks'
 import FAQ from '@/components/FAQ'
+import OurChefs from '@/components/OurChefs'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <NewMeals />
       <HowItWorks />
       <Services />
+      <OurChefs />
       <Pricing />
       <FAQ />
     </main>

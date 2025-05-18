@@ -98,4 +98,11 @@
     white-space: nowrap;
     border-width: 0;
   }
+
+  .circle-spin::after {
+    content: '';
+    @apply absolute inset-0 rounded-full outline-dashed outline-offset-4 outline-amber-800 dark:outline-amber-400 animate-spin;
+    animation-duration: 10s;
+    animation-direction: alternate;
+  }
 }

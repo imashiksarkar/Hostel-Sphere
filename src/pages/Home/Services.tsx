@@ -12,7 +12,7 @@ const Services = () => {
         </header>
 
         <section className='category-tab w-full grid grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] gap-4 py-4'>
-          <h1 className='sr-only'>Product List</h1>
+          <h1 className='sr-only'>Services List</h1>
           {services?.map((meal) => (
             <Card key={meal._id} className='text-wrap p-4 rounded-lg'>
               <CardHeader className='space-y-0 p-0'>
