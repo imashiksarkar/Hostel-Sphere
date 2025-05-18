@@ -3,6 +3,7 @@ import MealsByCategory from './MealsByCategory'
 import Pricing from './Pricing'
 import Services from './Services'
 import NewMeals from './NewMeals'
+import HowItWorks from '@/components/HowItWorks'
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <Slider />
       <MealsByCategory />
       <NewMeals />
+      <HowItWorks />
       <Services />
       <Pricing />
     </main>
