@@ -4,6 +4,7 @@ import Pricing from './Pricing'
 import Services from './Services'
 import NewMeals from './NewMeals'
 import HowItWorks from '@/components/HowItWorks'
+import FAQ from '@/components/FAQ'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <HowItWorks />
       <Services />
       <Pricing />
+      <FAQ />
     </main>
   )
 }
